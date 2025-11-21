@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <dirent.h>     // For opendir(), readdir(), closedir()
+
+int main() {
+    DIR *d;
+    struct dirent *dir;
+
+    // Open current directory
+    d = opendir(".");
+    if (d == NULL) {
+        printf("Error: Unable to open current directory.\n");
+        return 1;
+    }
+
+    printf("Listing files (ls simulation):\n\n");
+
+    // Read directory entries
+    while ((dir = readdir(d)) != NULL) {
+        printf("%s\n", dir->d_name);
+    }
+
+    closedir(d);   // Close directory
+    return 0;
+}

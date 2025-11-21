@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *fp;
+    char data[100];
+
+    // -------------------------------
+    // 1. CREATE & WRITE TO A FILE
+    // -------------------------------
+    fp = fopen("example.txt", "w");
+    if (fp == NULL) {
+        printf("Error creating file!\n");
+        return 1;
+    }
+
+    printf("Enter text to write into file: ");
+    fgets(data, sizeof(data), stdin);
+    fputs(data, fp);
+
+    fclose(fp);
+    printf("File created and data written successfully.\n");
+
+    // -------------------------------
+    // 2. READ FROM FILE
+    // -------------------------------
+    fp = fopen("example.txt", "r");
+    if (fp == NULL) {
+        printf("Error opening file for reading!\n");
+        return 1;
+    }
+
+    printf("\nReading file content:\n");
+    while (fgets(data, sizeof(data), fp) != NULL) {
+        printf("%s", data);
+    }
+    fclose(fp);
+
+    // -------------------------------
+    // 3. APPEND DATA TO FILE
+    // -------------------------------
+    fp = fopen("example.txt", "a");
+    if (fp == NULL) {
+        printf("Error opening file for appending!\n");
+        return 1;
+    }
+
+    printf("\nEnter text to append: ");
+    fgets(data, sizeof(data), stdin);
+    fputs(data, fp);
+
+    fclose(fp);
+    printf("Data appended successfully.\n");
+
+    // -------------------------------
+    // 4. DELETE FILE
+    // -------------------------------
+    if (remove("example.txt") == 0)
+        printf("\nFile deleted successfully.\n");
+    else
+        printf("\nError deleting file.\n");
+
+    return 0;
+}

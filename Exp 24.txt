@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <fcntl.h>      // For open()
+#include <unistd.h>     // For read(), write(), close(), lseek()
+#include <string.h>
+
+int main() {
+    int fd;
+    char buffer[100];
+
+    // ---------- 1. OPEN FILE ----------
+    fd = open("example.txt", O_CREAT | O_RDWR, 0644);
+    if (fd < 0) {
+        printf("Error opening file\n");
+        return 1;
+    }
+    printf("File opened successfully!\n");
+
+    // ---------- 2. WRITE TO FILE ----------
+    char data[] = "Hello, this is UNIX system call demonstration.\n";
+    write(fd, data, strlen(data));
+    printf("Data written to file.\n");
+
+    // ---------- 3. MOVE FILE POINTER (lseek) ----------
+    lseek(fd, 0, SEEK_SET);
+
+    // ---------- 4. READ FROM FILE ----------
+    int bytes = read(fd, buffer, sizeof(buffer));
+    buffer[bytes] = '\0';  // Null-terminate string
+
+    printf("\nContent read from file:\n%s", buffer);
+
+    // ---------- 5. CLOSE FILE ----------
+    close(fd);
+    printf("\nFile closed successfully.\n");
+
+    return 0;
+}
